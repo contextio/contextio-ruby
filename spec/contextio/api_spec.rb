@@ -19,7 +19,7 @@ describe ContextIO::API do
   end
 
   describe ".new" do
-    subject { ContextIO::API.new('test_key', 'test_secret') }
+    subject { ContextIO::API.new('test_key', 'test_secret', {a:'b'}) }
 
     it "takes a key" do
       expect(subject.key).to eq('test_key')
@@ -27,6 +27,10 @@ describe ContextIO::API do
 
     it "takes a secret" do
       expect(subject.secret).to eq('test_secret')
+    end
+
+    it "takes an option hash" do
+      expect(subject.opts).to eq(a:'b')
     end
   end
 

@@ -56,13 +56,17 @@ class ContextIO
     #   @return [String] The OAuth key for the user's Context.IO account.
     # @!attribute [r] secret
     #   @return [String] The OAuth secret for the user's Context.IO account.
-    attr_reader :key, :secret
+    # @!attribute [r] opts
+    #   @return [Hash] opts Optional options for OAuth connections.
+    attr_reader :key, :secret, :opts
 
     # @param [String] key The user's OAuth key for their Context.IO account.
     # @param [String] secret The user's OAuth secret for their Context.IO account.
-    def initialize(key, secret)
+    # @param [Hash] opts Optional options for OAuth connections. ie. :timeout and :open_timeout are supported
+    def initialize(key, secret, opts={})
       @key = key
       @secret = secret
+      @opts = opts || {}
     end
 
     # Generates the path for a resource_path and params hash for use with the API.
@@ -149,7 +153,7 @@ class ContextIO
     # @return [OAuth::Consumer] An Oauth consumer object for credentials
     #   purposes.
     def consumer
-      @consumer ||= OAuth::Consumer.new(key, secret, site: API.base_url)
+      @consumer ||= OAuth::Consumer.new(key, secret, @opts.merge(site: API.base_url))
     end
 
     # @!attribute [r] token

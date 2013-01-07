@@ -17,8 +17,9 @@ class ContextIO
   # @param [String] key Your OAuth consumer key for your Context.IO account
   # @param [String] secret Your OAuth consumer secret for your Context.IO
   #   account
-  def initialize(key, secret)
-    @api = API.new(key, secret)
+  # @param [Hash] opts Optional options for OAuth connections. ie. :timeout and :open_timeout are supported
+  def initialize(key, secret, opts={})
+    @api = API.new(key, secret, opts)
   end
 
   # Your entry point for dealing with oauth providers.

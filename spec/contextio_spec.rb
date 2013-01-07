@@ -14,6 +14,11 @@ describe ContextIO do
       expect(api.key).to eq('1234')
       expect(api.secret).to eq('0987')
     end
+
+    it "passes opts to its API handle" do
+      api = ContextIO.new('1234', '0987', {a:'b'}).api
+      expect(api.opts).to eq(a:'b')
+    end
   end
 
   describe "#oauth_providers" do
