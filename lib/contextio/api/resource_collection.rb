@@ -53,6 +53,22 @@ class ContextIO
         end
       end
 
+      # Returns the number of elements in self. May be zero.
+      #
+      # @note Calling this method will load the collection if not already loaded.
+      def size
+        attribute_hashes.size
+      end
+      alias :length, :size
+      alias :count, :size
+
+      # Returns true if self contains no elements.
+      #
+      # @note Calling this method will load the collection if not already loaded.
+      def empty?
+        size == 0
+      end
+
       # Specify one or more constraints for limiting resources in this
       # collection. See individual classes for the list of valid constraints.
       # Not all collections have valid where constraints at all.
