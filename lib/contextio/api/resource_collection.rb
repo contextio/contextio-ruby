@@ -59,8 +59,8 @@ class ContextIO
       def size
         attribute_hashes.size
       end
-      alias :length, :size
-      alias :count, :size
+      alias :length :size
+      alias :count :size
 
       # Returns true if self contains no elements.
       #
