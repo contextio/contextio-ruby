@@ -89,9 +89,8 @@ class ContextIO
     #
     # @raise [API::Error] if the response code isn't in the 200 or 300 range.
     def request(method, resource_path, params = {})
-      response = token.send(method, path(resource_path, params), 'Accept' => 'application/json', 'User-Agent' => user_agent_string)
+      response = oauth_request(method, resource_path, params)
       body = response.body
-
       results = JSON.parse(body) unless response.body.empty?
 
       if response.code =~ /[45]\d\d/
@@ -108,7 +107,7 @@ class ContextIO
     end
 
     def raw_request(method, resource_path, params={})
-      response = token.send(method, path(resource_path, params), 'User-Agent' => user_agent_string)
+      response = oauth_request(method, resource_path, params, 'User-Agent' => user_agent_string)
 
       if response.code =~ /[45]\d\d/
         raise API::Error, response.message
@@ -118,6 +117,25 @@ class ContextIO
     end
 
     private
+
+    # Makes a request signed for OAuth, encoding parameters correctly, etc.
+    #
+    # @param [String, Symbol] method The HTTP verb for the request (lower case).
+    # @param [String] resource_path The path to the resource in question.
+    # @param [{String, Symbol => String, Symbol, Array<String, Symbol>}] params
+    #   A Hash of the query parameters for the action represented by this
+    #   request.
+    #
+    # @return [Net::HTTP*] The response object from the request.
+    def oauth_request(method, resource_path, params, headers=nil)
+      headers ||= { 'Accept' => 'application/json', 'User-Agent' => user_agent_string }
+
+      if %w(put post).include? method.to_s.downcase
+        token.request(method, path(resource_path), params, headers)
+      else # GET, DELETE, HEAD, etc.
+        token.request(method, path(resource_path, params), headers)
+      end
+    end
 
     # So that we can accept full URLs, this strips the domain and version number
     # out and returns just the resource path.
