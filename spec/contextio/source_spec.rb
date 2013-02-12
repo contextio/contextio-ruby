@@ -49,4 +49,21 @@ describe ContextIO::Source do
       subject.update(sync_period: '4h')
     end
   end
+
+  describe ".sync!" do
+    before do
+      api.stub(:request).and_return({'success' => true})
+    end
+
+    subject { ContextIO::Source.new(api, resource_url: 'resource_url', sync_period: '1h') }
+
+    it "syncs to the api" do
+      api.should_receive(:request).with(
+        :post,
+        'resource_url/sync'
+      )
+
+      subject.sync!
+    end
+  end
 end

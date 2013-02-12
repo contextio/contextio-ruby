@@ -75,18 +75,5 @@ class ContextIO
       return @revisions
     end
 
-    def sync_data
-      return @sync_data if @sync_data
-
-      sync_hashes = api.request(:get, "#{resource_url}/sync")
-
-      @sync_data = ContextIO::SourceSyncData.new(sync_hashes)
-
-      return @sync_data
-    end
-
-    def sync!
-      api.request(:post, "#{resource_url}/sync")['success']
-    end
   end
 end
