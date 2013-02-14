@@ -20,11 +20,11 @@ describe ContextIO::API::URLBuilder do
         let(:account) { double('account', id: 'account_id') }
         let(:resource) { ContextIO::ConnectToken.new(api, token: 'token', account: account) }
 
-        it { should eq('accounts/account_id/connect_tokens/token') }
+        it { should eq('connect_tokens/token') }
       end
 
       context "without an account" do
-        let(:resource) { ContextIO::ConnectToken.new(api, token: 'token', api_attributes: { 'account' => { } }) }
+        let(:resource) { ContextIO::ConnectToken.new(api, token: 'token') }
 
         it { should eq('connect_tokens/token') }
       end
@@ -38,7 +38,7 @@ describe ContextIO::API::URLBuilder do
         it { should eq('accounts/account_id/connect_tokens') }
       end
 
-      context "wiehout an account" do
+      context "without an account" do
         let(:resource) { ContextIO::ConnectTokenCollection.new(api) }
 
         it { should eq('connect_tokens') }

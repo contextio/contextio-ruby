@@ -1,5 +1,9 @@
 # Changes
 
+## Unreleased
+
+* Fix infinite loop in ConnectToken URL building. - Ben Hamill
+
 ## 1.2.2
 
 * Fix `PUT` and `POST` parameter submission. - Ben Hamill

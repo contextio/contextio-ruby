@@ -50,11 +50,7 @@ class ContextIO
       end
 
       register_url ContextIO::ConnectToken do |connect_token|
-        if connect_token.account && connect_token.account.id
-          "accounts/#{connect_token.account.id}/connect_tokens/#{connect_token.token}"
-        else
-          "connect_tokens/#{connect_token.token}"
-        end
+        "connect_tokens/#{connect_token.token}"
       end
 
       register_url ContextIO::ConnectTokenCollection do |connect_tokens|
