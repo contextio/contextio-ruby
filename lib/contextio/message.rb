@@ -48,6 +48,10 @@ class ContextIO
       api.request(:get, "#{resource_url}/headers")
     end
 
+    def from
+       addresses['from']
+    end
+
     def raw
       api.raw_request(:get, "#{resource_url}/source")
     end
