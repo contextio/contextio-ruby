@@ -4,6 +4,8 @@
 
 * Add link to gem documentation to top of README. - Ben Hamill
 * Expand README to clarify gem usage. - Ben Hamill
+* Make `ResourceCollection#[]` correctly pass down the "owning" associated
+  object to instances created with it. - Ben Hamill
 
 ## 1.2.3
 

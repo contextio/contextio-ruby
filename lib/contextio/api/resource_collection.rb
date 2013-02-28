@@ -103,7 +103,7 @@ class ContextIO
       # @param [String] key The Provider Consumer Key for the
       #   provider you want to interact with.
       def [](key)
-        resource_class.new(api, resource_class.primary_key => key)
+        resource_class.new(api, associations_hash.merge(resource_class.primary_key => key))
       end
 
       private

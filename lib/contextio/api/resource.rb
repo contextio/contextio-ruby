@@ -190,7 +190,7 @@ class ContextIO
         #   resource.
         def belongs_to(association_name)
           define_method(association_name) do
-            if instance_variable_get("@#{association_name}")
+            if instance_variable_defined?("@#{association_name}")
               instance_variable_get("@#{association_name}")
             else
               association_attrs = api_attributes[association_name.to_s]
@@ -219,7 +219,15 @@ class ContextIO
           define_method(association_name) do
             association_class = ContextIO::API::AssociationHelpers.class_for_association_name(association_name)
 
-            instance_variable_get("@#{association_name}") || instance_variable_set("@#{association_name}", association_class.new(api, self.class.association_name => self, attribute_hashes: api_attributes[association_name.to_s]))
+            instance_variable_get("@#{association_name}") ||
+              instance_variable_set(
+                "@#{association_name}",
+                association_class.new(
+                  api,
+                  self.class.association_name => self,
+                  attribute_hashes: api_attributes[association_name.to_s]
+                )
+              )
           end
 
           associations << association_name.to_sym
