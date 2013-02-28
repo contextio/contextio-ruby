@@ -34,7 +34,7 @@ doubt.
 
 Or, of course, put this in your Gemfile:
 
-    gem contextio
+    gem 'contextio'
 
 
 ## Version Numbers
