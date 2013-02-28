@@ -4,6 +4,8 @@
 
 * Add link to gem documentation to top of README. - Ben Hamill
 * Expand README to clarify gem usage. - Ben Hamill
+* Work around the OAuth gem handling PUT request signing a bit oddly. - Ben
+  Hamill
 
 ## 1.2.3
 

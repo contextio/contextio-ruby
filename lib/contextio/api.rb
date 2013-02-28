@@ -130,10 +130,14 @@ class ContextIO
     def oauth_request(method, resource_path, params, headers=nil)
       headers ||= { 'Accept' => 'application/json', 'User-Agent' => user_agent_string }
 
-      if %w(put post).include? method.to_s.downcase
+      # The below array used to include put, too, but there is a weirdness in
+      # the oauth gem with PUT and signing requests. See
+      # https://github.com/oauth/oauth-ruby/pull/34#issuecomment-5862199 for
+      # some discussion on the matter. This is a work-around.
+      if %w(post).include? method.to_s.downcase
         token.request(method, path(resource_path), params, headers)
       else # GET, DELETE, HEAD, etc.
-        token.request(method, path(resource_path, params), headers)
+        token.request(method, path(resource_path, params), nil, headers)
       end
     end
 
