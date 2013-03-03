@@ -120,7 +120,10 @@ class ContextIO
       #     associated resource of that type.
       def associations_hash
         @associations_hash ||= self.class.associations.inject({}) do |memo, association_name|
-          memo[association_name.to_sym] = self.send(association_name)
+          if (association = self.send(association_name))
+            memo[association_name.to_sym] = association
+          end
+
           memo
         end
       end

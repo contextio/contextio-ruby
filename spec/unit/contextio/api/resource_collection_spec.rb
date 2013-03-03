@@ -282,5 +282,22 @@ describe ContextIO::API::ResourceCollection do
 
       subject[1234]
     end
+
+    context "with an empty association" do
+      let(:helper_class) do
+        Class.new do
+          include ContextIO::API::ResourceCollection
+
+          belongs_to :owner
+          self.resource_class = SingularHelper
+        end
+      end
+
+      it "doesn't pass a nil association to the resouce class" do
+        SingularHelper.should_receive(:new).with(api, 'token' => 1234)
+
+        subject[1234]
+      end
+    end
   end
 end

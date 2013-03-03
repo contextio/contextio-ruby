@@ -3,6 +3,8 @@
 ## Unreleased
 
 * Add sugar `Message#from` method. - Andrew Harrison
+* Fix bug related to `nil` being passed around for associations which caused the
+  association not to be filled with data from the API. - Ben Hamill
 
 ## 1.2.4
 
