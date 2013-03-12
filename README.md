@@ -63,6 +63,16 @@ account.messages.where(folder: '\Drafts').each do |m|
 end
 ```
 
+To grab an account you have just authenticated and have the token for, you can 
+just look it up in the Accounts collection using the connect_tokens attribute.
+
+```ruby
+require 'contextio'
+
+contextio = ContextIO.new('your_api_key', 'your_api_secret')
+account = contextio.accounts.where(connect_tokens: token).first
+```
+
 To grab some object you already know the primary key for, you'll use the `[]`
 method like you would for a `Hash` or `Array`. This is most helpful for
 accounts, but works for any resource collection.
