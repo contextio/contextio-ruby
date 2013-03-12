@@ -70,7 +70,7 @@ just look it up in the Accounts collection using the connect_tokens attribute.
 require 'contextio'
 
 contextio = ContextIO.new('your_api_key', 'your_api_secret')
-account = contextio.accounts.where(connect_tokens: token).first
+account = contextio.accounts.where(connect_tokens: some_user_token).first
 ```
 
 To grab some object you already know the primary key for, you'll use the `[]`
