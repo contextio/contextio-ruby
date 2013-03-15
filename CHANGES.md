@@ -1,5 +1,9 @@
 # Changes
 
+## Unreleased
+
+* Normalize key names from the API to be valid Ruby variable names. - Ben Hamill
+
 ## 1.3.0
 
 * Add sugar `Message#from` method. - Andrew Harrison

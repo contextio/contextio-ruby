@@ -131,6 +131,8 @@ class ContextIO
       attr_hashes = api.request(:get, resource_url, 'email' => email, 'source_type' => source_type)
 
       attr_hashes.each do |key, value|
+        key = key.to_s.gsub('-', '_')
+
         instance_variable_set("@#{key}", value)
 
         unless respond_to?(key)

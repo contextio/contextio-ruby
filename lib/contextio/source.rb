@@ -41,6 +41,8 @@ class ContextIO
 
       if it_worked
         options.each do |key, value|
+          key = key.to_s.gsub('-', '_')
+
           instance_variable_set("@#{key}", value)
         end
       end

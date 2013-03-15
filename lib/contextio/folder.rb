@@ -25,6 +25,8 @@ class ContextIO
       @source = options.delete(:source) || options.delete('source')
 
       options.each do |key, value|
+        key = key.to_s.gsub('-', '_')
+
         instance_variable_set("@#{key}", value)
 
         unless self.respond_to?(key)
