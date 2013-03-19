@@ -52,7 +52,7 @@ class ContextIO
     def messages
       association_class = ContextIO::API::AssociationHelpers.class_for_association_name(:messages)
 
-      @messages ||= association_class.new(api, folder: self)
+      @messages ||= association_class.new(api, account: source.account).where(folder: self.name)
     end
   end
 end

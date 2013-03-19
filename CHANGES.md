@@ -3,6 +3,9 @@
 ## Unreleased
 
 * Normalize key names from the API to be valid Ruby variable names. - Ben Hamill
+* Fix how `Folder` objects create their associated `MessageCollection` objects,
+  specifically with respect to passing around the handle to an appropriate
+  `Account` object. - Ben Hamill
 
 ## 1.3.0
 
