@@ -48,8 +48,10 @@ class ContextIO
       api.request(:get, "#{resource_url}/headers")
     end
 
-    def from
-       addresses['from']
+    %w(from to bcc cc reply_to).each do |f|
+      define_method(f) do
+        addresses[f]
+      end
     end
 
     def raw
