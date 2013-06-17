@@ -1,5 +1,9 @@
 # Changes
 
+## Unreleased
+
+* Added `version` and `base_url` instance variables to API. - Dominik Gehl
+
 ## 1.5.0
 
 * Make `Source#sync!` and `Account#sync!` take an options hash that will be

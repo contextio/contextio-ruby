@@ -10,11 +10,49 @@ describe ContextIO::API do
     end
   end
 
+  describe "#version" do
+    context "without version change" do
+      subject { ContextIO::API.new(nil, nil) }
+
+      it "uses API version 2.0" do
+        expect(subject.version).to eq('2.0')
+      end
+    end
+
+    context "with version change" do
+      subject { ContextIO::API.new(nil, nil) }
+
+      it "changes the API version used" do
+        subject.version = '1.1'
+        expect(subject.version).to eq('1.1')
+      end
+    end
+  end
+
   describe ".base_url" do
     subject { ContextIO::API }
 
     it "is https://api.context.io" do
       expect(subject.base_url).to eq('https://api.context.io')
+    end
+  end
+
+  describe "#base_url" do
+    context "without base_url change" do
+      subject { ContextIO::API.new(nil, nil) }
+
+      it "is https://api.context.io" do
+        expect(subject.base_url).to eq('https://api.context.io')
+      end
+    end
+
+    context "with base_url change" do
+      subject { ContextIO::API.new(nil, nil) }
+
+      it "changes the base_url" do
+        subject.base_url = 'https://api.example.com'
+        expect(subject.base_url).to eq('https://api.example.com')
+      end
     end
   end
 
@@ -35,11 +73,20 @@ describe ContextIO::API do
   end
 
   describe "#path" do
-    context "without params" do
+    context "without params and default version" do
       subject { ContextIO::API.new(nil, nil).path('test_command') }
 
       it "puts the command in the path" do
         expect(subject).to eq('/2.0/test_command')
+      end
+    end
+
+    context "without params and version change" do
+      subject { ContextIO::API.new(nil, nil) }
+
+      it "puts the command in the path" do
+        subject.version = '2.5'
+        expect(subject.path('test_command')).to eq('/2.5/test_command')
       end
     end
 
@@ -56,6 +103,16 @@ describe ContextIO::API do
 
       it "strips out the command" do
         expect(subject).to eq('/2.0/test_command')
+      end
+    end
+
+    context "with a full URL and version and base_url change" do
+      subject { ContextIO::API.new(nil, nil) }
+
+      it "strips out the command" do
+        subject.version = '2.5'
+        subject.base_url = 'https://api.example.com'
+        expect(subject.path('https://api.example.com/2.5/test_command')).to eq('/2.5/test_command')
       end
     end
   end

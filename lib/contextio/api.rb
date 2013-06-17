@@ -52,6 +52,8 @@ class ContextIO
       self.class.user_agent_string
     end
 
+    attr_accessor :base_url, :version
+
     # @!attribute [r] key
     #   @return [String] The OAuth key for the user's Context.IO account.
     # @!attribute [r] secret
@@ -67,6 +69,8 @@ class ContextIO
       @key = key
       @secret = secret
       @opts = opts || {}
+      @base_url = self.class.base_url
+      @version = self.class.version
     end
 
     # Generates the path for a resource_path and params hash for use with the API.
@@ -76,7 +80,7 @@ class ContextIO
     # @param [{String, Symbol => String, Symbol, Array<String, Symbol>}] params
     #   A Hash of the query parameters for the action represented by this path.
     def path(resource_path, params = {})
-      "/#{API.version}/#{API.strip_resource_path(resource_path)}#{API.hash_to_url_params(params)}"
+      "/#{version}/#{strip_resource_path(resource_path)}#{API.hash_to_url_params(params)}"
     end
 
     # Makes a request against the Context.IO API.
@@ -147,7 +151,7 @@ class ContextIO
     # @param [#to_s] resource_path The full URL or path for a resource.
     #
     # @return [String] The resource path.
-    def self.strip_resource_path(resource_path)
+    def strip_resource_path(resource_path)
       resource_path.to_s.gsub("#{base_url}/#{version}/", '')
     end
 
@@ -175,7 +179,7 @@ class ContextIO
     # @return [OAuth::Consumer] An Oauth consumer object for credentials
     #   purposes.
     def consumer
-      @consumer ||= OAuth::Consumer.new(key, secret, @opts.merge(site: API.base_url))
+      @consumer ||= OAuth::Consumer.new(key, secret, @opts.merge(site: base_url))
     end
 
     # @!attribute [r] token
