@@ -48,7 +48,7 @@ class ContextIO
     end
 
     def content
-      @content ||= api.request(:get, "#{resource_url}/content")
+      @content ||= api.raw_request(:get, "#{resource_url}/content")
     end
 
     def content_link
