@@ -48,6 +48,12 @@ describe ContextIO::Source do
 
       subject.update(sync_period: '4h')
     end
+
+    it "allows you to send arbitrary arguments to the API" do
+      expect(api).to receive(:request).with(:post, anything, {foo: 'bar'})
+
+      subject.update(foo: 'bar')
+    end
   end
 
   describe ".sync!" do

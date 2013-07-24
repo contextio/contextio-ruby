@@ -27,16 +27,6 @@ class ContextIO
     #   provider_token_secret, provider_consumer_key. See the Context.IO docs
     #   for more details on these fields.
     def update(options={})
-      updatable_attrs = %w(status sync_period service_level password
-                           provider_token provider_token_secret
-                           provider_consumer_key)
-
-      options.keep_if do |key, value|
-        updatable_attrs.include?(key.to_s)
-      end
-
-      return nil if options.empty?
-
       it_worked = api.request(:post, resource_url, options)['success']
 
       if it_worked
