@@ -8,11 +8,11 @@ describe ContextIO::ConnectTokenCollection do
 
   describe "#create" do
     before do
-      api.stub(:request).with(:post, anything, anything).and_return({ token: '1234' })
+      allow(api).to receive(:request).with(:post, anything, anything).and_return({ token: '1234' })
     end
 
     it "posts to the api" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         :post,
         'url from api',
         hash_including(callback_url: 'http://callback.com')
@@ -22,7 +22,7 @@ describe ContextIO::ConnectTokenCollection do
     end
 
     it "doesn't make any more API calls than it needs to" do
-      api.should_not_receive(:request).with(:get, anything, anything)
+      expect(api).to_not receive(:request).with(:get, anything, anything)
 
       subject.create('http://callback.com')
     end
@@ -32,7 +32,7 @@ describe ContextIO::ConnectTokenCollection do
     end
 
     it "takes an optional service level" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         anything,
         anything,
         hash_including(service_level: 'PRO')
@@ -42,7 +42,7 @@ describe ContextIO::ConnectTokenCollection do
     end
 
     it "takes an optional email" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         anything,
         anything,
         hash_including(email: 'person@email.com')
@@ -52,7 +52,7 @@ describe ContextIO::ConnectTokenCollection do
     end
 
     it "takes an optional first name" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         anything,
         anything,
         hash_including(first_name: 'Bruno')
@@ -62,7 +62,7 @@ describe ContextIO::ConnectTokenCollection do
     end
 
     it "takes an optional last name" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         anything,
         anything,
         hash_including(last_name: 'Morency')

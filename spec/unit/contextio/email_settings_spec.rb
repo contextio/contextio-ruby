@@ -38,63 +38,63 @@ describe ContextIO::EmailSettings do
 
   describe "#documentation" do
     it "fetches it from the api" do
-      api.should_receive(:request).with(:get, anything, anything).and_return({ 'documentation' => ['foo', 'bar'] })
+      expect(api).to receive(:request).with(:get, anything, anything).and_return({ 'documentation' => ['foo', 'bar'] })
       expect(subject.documentation).to eq(['foo', 'bar'])
     end
   end
 
   describe "#found?" do
     it "fetches it from the api" do
-      api.should_receive(:request).with(:get, anything, anything).and_return({ 'found' => true })
+      expect(api).to receive(:request).with(:get, anything, anything).and_return({ 'found' => true })
       expect(subject).to be_found
     end
   end
 
   describe "#type" do
     it "fetches it from the api" do
-      api.should_receive(:request).with(:get, anything, anything).and_return({ 'type' => 'gmail' })
+      expect(api).to receive(:request).with(:get, anything, anything).and_return({ 'type' => 'gmail' })
       expect(subject.type).to eq('gmail')
     end
   end
 
   describe "#server" do
     it "fetches it from the api" do
-      api.should_receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'server' => 'imap.gmail.com' }})
+      expect(api).to receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'server' => 'imap.gmail.com' }})
       expect(subject.server).to eq('imap.gmail.com')
     end
   end
 
   describe "#username" do
     it "fetches it from the api" do
-      api.should_receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'username' => 'ben' }})
+      expect(api).to receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'username' => 'ben' }})
       expect(subject.username).to eq('ben')
     end
   end
 
   describe "#port" do
     it "fetches it from the api" do
-      api.should_receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'port' => 993 }})
+      expect(api).to receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'port' => 993 }})
       expect(subject.port).to eq(993)
     end
   end
 
   describe "#oauth?" do
     it "fetches it from the api" do
-      api.should_receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'oauth' => false }})
+      expect(api).to receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'oauth' => false }})
       expect(subject).to_not be_oauth
     end
   end
 
   describe "#use_ssl?" do
     it "fetches it from the api" do
-      api.should_receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'use_ssl' => false }})
+      expect(api).to receive(:request).with(:get, anything, anything).and_return({ 'imap' => { 'use_ssl' => false }})
       expect(subject).to_not be_use_ssl
     end
   end
 
   describe "#fetch_attributes" do
     before do
-      api.stub(:request).with(:get, anything, anything).and_return({ 'foo' => 'bar' })
+      allow(api).to receive(:request).with(:get, anything, anything).and_return({ 'foo' => 'bar' })
     end
 
     it "defines a getter if one doesn't already exist" do
@@ -104,7 +104,7 @@ describe ContextIO::EmailSettings do
     end
 
     it "hits the right URL" do
-      api.should_receive(:request).with(:get, 'discovery', 'email' => 'email@email.com', 'source_type' => 'IMAP')
+      expect(api).to receive(:request).with(:get, 'discovery', 'email' => 'email@email.com', 'source_type' => 'IMAP')
 
       subject.send(:fetch_attributes)
     end

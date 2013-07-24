@@ -12,6 +12,10 @@ RSpec.configure do |rspec|
   rspec.expect_with :rspec do |expectations|
     expectations.syntax = :expect
   end
+
+  rspec.mock_with :rspec do |mocks|
+    mocks.syntax = :expect
+  end
 end
 
 FakeWeb.allow_net_connect = false

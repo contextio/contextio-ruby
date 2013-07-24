@@ -42,7 +42,7 @@ describe ContextIO::OAuthProvider do
       subject { ContextIO::OAuthProvider.new(api, provider_consumer_key: '1234') }
 
       it "asks the api for a URL" do
-        api.should_receive(:url_for).with(subject)
+        expect(api).to receive(:url_for).with(subject)
 
         subject.resource_url
       end
@@ -54,7 +54,7 @@ describe ContextIO::OAuthProvider do
       subject { ContextIO::OAuthProvider.new(api, provider_consumer_key: '1234') }
 
       it "uses the input key" do
-        api.should_not_receive(:request)
+        expect(api).to_not receive(:request)
 
         expect(subject.provider_consumer_key).to eq('1234')
       end
@@ -64,7 +64,7 @@ describe ContextIO::OAuthProvider do
       subject { ContextIO::OAuthProvider.new(api, resource_url: 'http://example.com/hitme') }
 
       it "loads it from the API" do
-        api.should_receive(:request).with(
+        expect(api).to receive(:request).with(
           :get,
           'http://example.com/hitme'
         ).and_return({
@@ -81,7 +81,7 @@ describe ContextIO::OAuthProvider do
       subject { ContextIO::OAuthProvider.new(api, provider_consumer_key: '1234', provider_consumer_secret: '0987') }
 
       it "uses the input provider_consumer_secret" do
-        api.should_not_receive(:request)
+        expect(api).to_not receive(:request)
 
         expect(subject.provider_consumer_secret).to eq('0987')
       end
@@ -91,7 +91,7 @@ describe ContextIO::OAuthProvider do
       subject { ContextIO::OAuthProvider.new(api, provider_consumer_key: '1234') }
 
       it "loads it from the API" do
-        api.should_receive(:request).with(:get, anything).and_return({ 'provider_consumer_secret' => '1029' })
+        expect(api).to receive(:request).with(:get, anything).and_return({ 'provider_consumer_secret' => '1029' })
         expect(subject.provider_consumer_secret).to eq('1029')
       end
     end
@@ -102,7 +102,7 @@ describe ContextIO::OAuthProvider do
       subject { ContextIO::OAuthProvider.new(api, provider_consumer_key: '1234', type: 'GMAIL') }
 
       it "uses the input type" do
-        api.should_not_receive(:request)
+        expect(api).to_not receive(:request)
 
         expect(subject.type).to eq('GMAIL')
       end
@@ -112,7 +112,7 @@ describe ContextIO::OAuthProvider do
       subject { ContextIO::OAuthProvider.new(api, provider_consumer_key: '1234') }
 
       it "loads it from the API" do
-        api.should_receive(:request).with(:get, anything).and_return({ 'type' => 'GOOGLEAPPSMARKETPLACE' })
+        expect(api).to receive(:request).with(:get, anything).and_return({ 'type' => 'GOOGLEAPPSMARKETPLACE' })
         expect(subject.type).to eq('GOOGLEAPPSMARKETPLACE')
       end
     end

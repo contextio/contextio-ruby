@@ -8,7 +8,7 @@ describe ContextIO::AccountCollection do
 
   describe "#create" do
     before do
-      api.stub(:request).with(:post, anything, anything).and_return(
+      allow(api).to receive(:request).with(:post, anything, anything).and_return(
         'success'      => true,
         'id'           => '1234',
         'resource_url' => 'resource_url'
@@ -21,7 +21,7 @@ describe ContextIO::AccountCollection do
       end
 
       it "posts to the api" do
-        api.should_receive(:request).with(
+        expect(api).to receive(:request).with(
           :post,
           'url from api',
           hash_including(email: 'hello@email.com')
@@ -31,7 +31,7 @@ describe ContextIO::AccountCollection do
       end
 
       it "doesn't make any more API calls than it needs to" do
-        api.should_not_receive(:request).with(:get, anything, anything)
+        expect(api).to_not receive(:request).with(:get, anything, anything)
 
         subject.create(email: 'hello@email.com')
       end
@@ -41,7 +41,7 @@ describe ContextIO::AccountCollection do
       end
 
       it "takes an optional first name" do
-        api.should_receive(:request).with(
+        expect(api).to receive(:request).with(
           anything,
           anything,
           hash_including(first_name: 'Bruno')
@@ -51,7 +51,7 @@ describe ContextIO::AccountCollection do
       end
 
       it "takes an optional last name" do
-        api.should_receive(:request).with(
+        expect(api).to receive(:request).with(
           anything,
           anything,
           hash_including(last_name: 'Morency')
@@ -65,11 +65,11 @@ describe ContextIO::AccountCollection do
       subject { ContextIO::AccountCollection.new(api).where(email: 'hello@email.com')}
 
       it "allows a missing email address" do
-        expect { subject.create(first_name: 'Bruno') }.to_not raise_error(ArgumentError)
+        expect { subject.create(first_name: 'Bruno') }.to_not raise_error
       end
 
       it "uses the email address from the where constraints" do
-        api.should_receive(:request).with(anything, anything, hash_including(email: 'hello@email.com'))
+        expect(api).to receive(:request).with(anything, anything, hash_including(email: 'hello@email.com'))
 
         subject.create(first_name: 'Bruno')
       end

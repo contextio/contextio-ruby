@@ -22,13 +22,13 @@ describe ContextIO::Source do
 
   describe "#update" do
     before do
-      api.stub(:request).and_return({'success' => true})
+      allow(api).to receive(:request).and_return({'success' => true})
     end
 
     subject { ContextIO::Source.new(api, resource_url: 'resource_url', sync_period: '1h') }
 
     it "posts to the api" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         :post,
         'resource_url',
         sync_period: '4h'
@@ -44,7 +44,7 @@ describe ContextIO::Source do
     end
 
     it "doesn't make any more API calls than it needs to" do
-      api.should_not_receive(:request).with(:get, anything, anything)
+      expect(api).to_not receive(:request).with(:get, anything, anything)
 
       subject.update(sync_period: '4h')
     end
@@ -52,13 +52,13 @@ describe ContextIO::Source do
 
   describe ".sync!" do
     before do
-      api.stub(:request).and_return({'success' => true})
+      allow(api).to receive(:request).and_return({'success' => true})
     end
 
     subject { ContextIO::Source.new(api, resource_url: 'resource_url', sync_period: '1h') }
 
     it "syncs to the api" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         :post,
         'resource_url/sync',
         {}

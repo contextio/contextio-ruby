@@ -88,7 +88,7 @@ describe ContextIO::API::ResourceCollection do
     end
 
     it "limits the scope of subsequent #each calls" do
-      api.should_receive(:request).with(anything, anything, foo: 'bar').and_return([])
+      expect(api).to receive(:request).with(anything, anything, foo: 'bar').and_return([])
 
       subject.where(foo: 'bar').each { }
     end
@@ -129,7 +129,7 @@ describe ContextIO::API::ResourceCollection do
       end
 
       before do
-        api.stub(:request).and_return([{key: 'value 1'}, {key: 'value 2'}])
+        allow(api).to receive(:request).and_return([{key: 'value 1'}, {key: 'value 2'}])
       end
 
       it "yields instances of the singular resource class" do
@@ -139,20 +139,20 @@ describe ContextIO::API::ResourceCollection do
       end
 
       it "gets attributes for the resources from the api" do
-        api.should_receive(:request).exactly(:once).with(:get, 'url from api', {})
+        expect(api).to receive(:request).exactly(:once).with(:get, 'url from api', {})
 
         subject.each { }
       end
 
       it "passes the api to the singular resource instances" do
-        SingularHelper.should_receive(:new).exactly(:twice).with(api, anything)
+        expect(SingularHelper).to receive(:new).exactly(:twice).with(api, anything)
 
         subject.each { }
       end
 
       it "passes attributes to the singular resource instances" do
-        SingularHelper.should_receive(:new).exactly(:once).with(anything, key: 'value 1')
-        SingularHelper.should_receive(:new).exactly(:once).with(anything, key: 'value 2')
+        expect(SingularHelper).to receive(:new).exactly(:once).with(anything, key: 'value 1')
+        expect(SingularHelper).to receive(:new).exactly(:once).with(anything, key: 'value 2')
 
         subject.each { }
       end
@@ -175,7 +175,7 @@ describe ContextIO::API::ResourceCollection do
         end
 
         it "passes the belonged-to resource to the singular resource instances" do
-          SingularHelper.should_receive(:new).exactly(:twice).with(
+          expect(SingularHelper).to receive(:new).exactly(:twice).with(
             anything,
             hash_including(owner: owner)
           )
@@ -197,20 +197,20 @@ describe ContextIO::API::ResourceCollection do
       end
 
       it "doesn't hit the API" do
-        api.should_not_receive(:request)
+        expect(api).to_not receive(:request)
 
         subject.each { }
       end
 
       it "passes the api to the singular resource instances" do
-        SingularHelper.should_receive(:new).exactly(:twice).with(api, anything)
+        expect(SingularHelper).to receive(:new).exactly(:twice).with(api, anything)
 
         subject.each { }
       end
 
       it "passes attributes to the singular resource instances" do
-        SingularHelper.should_receive(:new).exactly(:once).with(anything, foo: 'bar')
-        SingularHelper.should_receive(:new).exactly(:once).with(anything, foo: 'baz')
+        expect(SingularHelper).to receive(:new).exactly(:once).with(anything, foo: 'bar')
+        expect(SingularHelper).to receive(:new).exactly(:once).with(anything, foo: 'baz')
 
         subject.each { }
       end
@@ -237,7 +237,7 @@ describe ContextIO::API::ResourceCollection do
         end
 
         it "passes the belonged-to resource to the singular resource instances" do
-          SingularHelper.should_receive(:new).exactly(:twice).with(
+          expect(SingularHelper).to receive(:new).exactly(:twice).with(
             anything,
             hash_including(owner: owner)
           )
@@ -266,19 +266,19 @@ describe ContextIO::API::ResourceCollection do
     end
 
     it "feeds the given key to the resource class" do
-      SingularHelper.should_receive(:new).with(anything, 'token' => 1234)
+      expect(SingularHelper).to receive(:new).with(anything, 'token' => 1234)
 
       subject[1234]
     end
 
     it "feeds the api to the resource class" do
-      SingularHelper.should_receive(:new).with(api, anything)
+      expect(SingularHelper).to receive(:new).with(api, anything)
 
       subject[1234]
     end
 
     it "doesn't hit the API" do
-      api.should_not_receive(:request)
+      expect(api).to_not receive(:request)
 
       subject[1234]
     end
@@ -294,7 +294,7 @@ describe ContextIO::API::ResourceCollection do
       end
 
       it "doesn't pass a nil association to the resouce class" do
-        SingularHelper.should_receive(:new).with(api, 'token' => 1234)
+        expect(SingularHelper).to receive(:new).with(api, 'token' => 1234)
 
         subject[1234]
       end

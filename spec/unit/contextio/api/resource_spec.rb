@@ -122,7 +122,7 @@ describe ContextIO::API::Resource do
       end
 
       it "doesn't try to fetch from the API" do
-        subject.should_not_receive(:fetch_attributes)
+        expect(subject).to_not receive(:fetch_attributes)
 
         subject.foo
       end
@@ -134,7 +134,7 @@ describe ContextIO::API::Resource do
 
     context "when the attributes is not set at creation" do
       it "tries to fetch from the API" do
-        api.should_receive(:request).with(:get, 'resource_url').
+        expect(api).to receive(:request).with(:get, 'resource_url').
           and_return({'foo' => 'set from API', 'longer-name' => 'bar'})
 
         subject.foo
@@ -164,7 +164,7 @@ describe ContextIO::API::Resource do
         subject { helper_class.new(api, resource_url: 'resource_url') }
 
         before do
-          api.stub(:request).and_return(
+          allow(api).to receive(:request).and_return(
             {
               'resource' => {
                 'resource_url' => 'relation_url'
@@ -178,7 +178,7 @@ describe ContextIO::API::Resource do
         end
 
         it "passes keys from the api response to the new object" do
-          Resource.should_receive(:new).with(api, 'resource_url' => 'relation_url')
+          expect(Resource).to receive(:new).with(api, 'resource_url' => 'relation_url')
 
           subject.resource
         end
@@ -192,7 +192,7 @@ describe ContextIO::API::Resource do
         subject { helper_class.new(api, resource_url: 'resource_url') }
 
         before do
-          api.stub(:request).and_return({ })
+          allow(api).to receive(:request).and_return({ })
         end
 
         it "makes the resource nil" do
@@ -204,7 +204,7 @@ describe ContextIO::API::Resource do
         subject { helper_class.new(api, resource_url: 'resource_url') }
 
         before do
-          api.stub(:request).and_return(
+          allow(api).to receive(:request).and_return(
             {
               'resource' => { }
             }
@@ -220,7 +220,7 @@ describe ContextIO::API::Resource do
         subject { helper_class.new(api, resource_url: 'resource_url') }
 
         before do
-          api.stub(:request).and_return(
+          allow(api).to receive(:request).and_return(
             {
               'resource' => [ ]
             }
@@ -243,7 +243,7 @@ describe ContextIO::API::Resource do
       end
 
       it "doesn't make any API calls" do
-        api.should_not_receive(:request)
+        expect(api).to_not receive(:request)
 
         subject.resource
       end
@@ -265,7 +265,7 @@ describe ContextIO::API::Resource do
         subject { helper_class.new(api, resource_url: 'resource_url') }
 
         before do
-          api.stub(:request).and_return(
+          allow(api).to receive(:request).and_return(
             {
               'resources' => [{
                 'resource_url' => 'relation_url'
@@ -279,7 +279,7 @@ describe ContextIO::API::Resource do
         end
 
         it "passes keys from the api response to the new object" do
-          ResourceCollection.should_receive(:new).with(api, hash_including(attribute_hashes: [{'resource_url' => 'relation_url'}]))
+          expect(ResourceCollection).to receive(:new).with(api, hash_including(attribute_hashes: [{'resource_url' => 'relation_url'}]))
 
           subject.resources
         end
@@ -289,7 +289,7 @@ describe ContextIO::API::Resource do
         end
 
         it "passes its self to the new collection" do
-          ResourceCollection.should_receive(:new).with(anything, hash_including(:helper_class => subject))
+          expect(ResourceCollection).to receive(:new).with(anything, hash_including(:helper_class => subject))
 
           subject.resources
         end
@@ -299,11 +299,11 @@ describe ContextIO::API::Resource do
         subject { helper_class.new(api, resource_url: 'resource_url') }
 
         before do
-          api.stub(:request).and_return({ 'foo' => 'bar' })
+          allow(api).to receive(:request).and_return({ 'foo' => 'bar' })
         end
 
         it "tries the API only once" do
-          api.should_receive(:request).exactly(:once).and_return({ 'foo' => 'bar' })
+          expect(api).to receive(:request).exactly(:once).and_return({ 'foo' => 'bar' })
 
           subject.resources
           subject.resources
@@ -314,7 +314,7 @@ describe ContextIO::API::Resource do
         end
 
         it "passes its self to the new collection" do
-          ResourceCollection.should_receive(:new).with(anything, hash_including(:helper_class => subject))
+          expect(ResourceCollection).to receive(:new).with(anything, hash_including(:helper_class => subject))
 
           subject.resources
         end
@@ -331,7 +331,7 @@ describe ContextIO::API::Resource do
       end
 
       it "doesn't make any API calls" do
-        api.should_not_receive(:request)
+        expect(api).to_not receive(:request)
 
         subject.resources
       end
@@ -350,13 +350,13 @@ describe ContextIO::API::Resource do
     end
 
     it "makes a request to the API" do
-      subject.api.should_receive(:request).with(:get, 'resource_url').and_return({})
+      expect(subject.api).to receive(:request).with(:get, 'resource_url').and_return({})
 
       subject.send(:fetch_attributes)
     end
 
     it "defines getter methods for new attributes returned" do
-      subject.api.stub(:request).and_return(foo: 'bar')
+      allow(subject.api).to receive(:request).and_return(foo: 'bar')
 
       subject.send(:fetch_attributes)
 
@@ -368,7 +368,7 @@ describe ContextIO::API::Resource do
         'hard coded value'
       end
 
-      subject.api.stub(:request).and_return(foo: 'bar')
+      allow(subject.api).to receive(:request).and_return(foo: 'bar')
 
       subject.send(:fetch_attributes)
 
@@ -376,7 +376,7 @@ describe ContextIO::API::Resource do
     end
 
     it "stores the response hash" do
-      subject.api.stub(:request).and_return('foo' => 'bar')
+      allow(subject.api).to receive(:request).and_return('foo' => 'bar')
 
       subject.send(:fetch_attributes)
 
@@ -400,7 +400,7 @@ describe ContextIO::API::Resource do
     end
 
     it "hits the API only on first call" do
-      api.should_receive(:request).exactly(:once)
+      expect(api).to receive(:request).exactly(:once)
 
       subject.api_attributes
       subject.api_attributes
@@ -436,7 +436,7 @@ describe ContextIO::API::Resource do
       end
 
       it "delegates URL construction to the api" do
-        api.should_receive(:url_for).with(subject).and_return('helpers/33f1')
+        expect(api).to receive(:url_for).with(subject).and_return('helpers/33f1')
 
         expect(subject.resource_url).to eq('helpers/33f1')
       end
@@ -455,7 +455,7 @@ describe ContextIO::API::Resource do
     end
 
     it "makes a request to the API" do
-      subject.api.should_receive(:request).with(:delete, 'resource_url')
+      expect(subject.api).to receive(:request).with(:delete, 'resource_url')
 
       subject.delete
     end

@@ -34,7 +34,7 @@ describe ContextIO::ConnectToken do
       subject { ContextIO::ConnectToken.new(api, token: '1234') }
 
       it "uses the input key" do
-        api.should_not_receive(:request)
+        expect(api).to_not receive(:request)
 
         expect(subject.token).to eq('1234')
       end
@@ -44,7 +44,7 @@ describe ContextIO::ConnectToken do
       subject { ContextIO::ConnectToken.new(api, resource_url: 'http://example.com/hitme') }
 
       it "loads it from the API" do
-        api.should_receive(:request).with(
+        expect(api).to receive(:request).with(
           :get,
           'http://example.com/hitme'
         ).and_return({

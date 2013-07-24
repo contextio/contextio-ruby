@@ -8,14 +8,14 @@ describe ContextIO::SourceCollection do
 
   describe "#create" do
     before do
-      api.stub(:request).with(:post, anything, anything).and_return(
+      allow(api).to receive(:request).with(:post, anything, anything).and_return(
         'success'      => true,
         'resource_url' => 'resource_url'
       )
     end
 
     it "posts to the api" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         :post,
         'url from api',
         anything
@@ -25,7 +25,7 @@ describe ContextIO::SourceCollection do
     end
 
     it "converts boolean to number string for ssl" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         anything,
         anything,
         hash_including(:use_ssl => '1')
@@ -35,7 +35,7 @@ describe ContextIO::SourceCollection do
     end
 
     it "converts integer to number string for port" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         anything,
         anything,
         hash_including(:port => '993')
@@ -45,7 +45,7 @@ describe ContextIO::SourceCollection do
     end
 
     it "doesn't make any more API calls than it needs to" do
-      api.should_not_receive(:request).with(:get, anything, anything)
+      expect(api).to_not receive(:request).with(:get, anything, anything)
 
       subject.create('hello@gmail.com', 'imap.email.com', 'hello', true, 993, 'IMAP')
     end

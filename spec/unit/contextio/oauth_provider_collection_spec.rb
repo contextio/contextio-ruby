@@ -8,11 +8,11 @@ describe ContextIO::OAuthProviderCollection do
 
   describe "#create" do
     before do
-      api.stub(:request).with(:post, anything, anything).and_return({ provider_consumer_key: 'test_key' })
+      allow(api).to receive(:request).with(:post, anything, anything).and_return({ provider_consumer_key: 'test_key' })
     end
 
     it "posts to the api" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         :post,
         'url from api',
         type: 'GMAIL',
@@ -24,7 +24,7 @@ describe ContextIO::OAuthProviderCollection do
     end
 
     it "doesn't make any more API requests than it needs to" do
-      api.should_receive(:request).exactly(:once)
+      expect(api).to receive(:request).exactly(:once)
 
       subject.create('GMAIL', 'test_key', 'test_secret')
     end

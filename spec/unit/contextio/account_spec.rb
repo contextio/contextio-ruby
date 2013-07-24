@@ -22,13 +22,13 @@ describe ContextIO::Account do
 
   describe "#update" do
     before do
-      api.stub(:request).and_return({'success' => true})
+      allow(api).to receive(:request).and_return({'success' => true})
     end
 
     subject { ContextIO::Account.new(api, id: '1234', first_name: 'old first name') }
 
     it "posts to the api" do
-      api.should_receive(:request).with(
+      expect(api).to receive(:request).with(
         :post,
         'url from api',
         first_name: 'new first name'
@@ -44,7 +44,7 @@ describe ContextIO::Account do
     end
 
     it "doesn't make any more API calls than it needs to" do
-      api.should_not_receive(:request).with(:get, anything, anything)
+      expect(api).to_not receive(:request).with(:get, anything, anything)
 
       subject.update(first_name: 'new first name')
     end
