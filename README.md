@@ -184,7 +184,8 @@ Pass dates in to message queries as Unix Epoch integers.
 require 'active_support/all'
 
 account.messages.where(date_before: 3.hours.ago.to_i, date_after: 5.hours.ago.to_i).each do |message|
-  puts "(#{message.date}) #{message.subject}"
+  puts message.subject      #=> "The subject of my email"
+  puts message.received_at  #=> 2013-07-31 20:33:56 -0500  
 end
 ```
 
