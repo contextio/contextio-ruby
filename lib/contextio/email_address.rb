@@ -2,6 +2,7 @@ require 'contextio/api/association_helpers'
 
 class ContextIO
   class EmailAddress
+    include ContextIO::API::Resource
     def self.association_name
       :email_address
     end

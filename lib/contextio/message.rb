@@ -88,6 +88,16 @@ class ContextIO
       api.request(:post, resource_url, dst_folder: folder_name, dst_source: source_label, move: 1)['success']
     end
 
+    # You can call this with a Folder object or the Folder name.
+    def remove_from(folder)
+      if folder.is_a?(ContextIO::Folder)
+        folder_name = folder.name
+      else
+        folder_name = folder.to_s
+      end
+      api.request(:post, resource_url+"/folders", remove:folder_name)['success']
+    end
+
     def delete
       api.request(:delete, resource_url)['success']
     end
