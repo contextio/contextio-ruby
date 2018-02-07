@@ -1,3 +1,8 @@
+# This client library is deprecated.
+# The 2.0 version of the API will also be partially deprecated on June 15th, 2018, and fully deprecated December 15th, 2018.
+
+[READ MORE HERE](https://blog.context.io/important-announcement-deprecation-of-2-0-api-8f73488a8c0e)
+
 # Context.IO
 
 * [Homepage](https://github.com/contextio/contextio-ruby#readme)
