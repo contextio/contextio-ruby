@@ -4,7 +4,7 @@
 
 * Lazy Folder access, and allow indexing folder collection by name
 
-##2.0.0
+## 2.0.0
 
 * Limit Faraday to no retries on requests, update version of faraday -Bonnie Mattson
 
