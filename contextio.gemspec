@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'faraday', '~> 0.11.0'
 
-  gem.add_dependency 'faraday_middleware', '~> 0.9.0'
+  gem.add_dependency 'faraday_middleware', '~> 0.11.0'
   gem.add_dependency 'simple_oauth', '~> 0.3.0'
 
   gem.add_development_dependency 'bundler'
